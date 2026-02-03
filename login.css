@@ -203,3 +203,6 @@ body{
 .bottom-text a:hover{
   text-decoration: underline;
 }
+.account {
+    text-decoration: none;
+}

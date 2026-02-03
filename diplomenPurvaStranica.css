@@ -537,6 +537,9 @@ color: white;
   border: none;    /* маха втори бордър */
   padding: 0;      /* маха падинг */
 }
+.account-pill{
+text-decoration: none !important;
+}
 
 
 

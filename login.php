@@ -1,8 +1,52 @@
 <?php
 session_start();
-if (isset($_SESSION["user"])) {
-  header("Location: index.php");
+
+if (isset($_SESSION["user_id"])) {
+  // ако вече е логнат
+  if (isset($_SESSION["roles"]) && ($_SESSION["roles"] === "admin" || $_SESSION["roles"] === "staff")) {
+    header("Location: admin/index.php");
+  } else {
+    header("Location: index.php");
+  }
   exit;
+}
+
+$msg = "";
+
+if (isset($_POST["login"])) {
+  $email = trim($_POST["email"] ?? "");
+  $password = $_POST["password"] ?? "";
+
+  require_once "database.php"; // дава $conn
+
+  // prepared statement (по-сигурно)
+  $sql = "SELECT user_id, user_name, email, password_hash, roles FROM users WHERE email = ?";
+  $stmt = mysqli_prepare($conn, $sql);
+  mysqli_stmt_bind_param($stmt, "s", $email);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  $user = mysqli_fetch_assoc($result);
+
+  if ($user) {
+    if (password_verify($password, $user["password_hash"])) {
+
+      $_SESSION["user_id"] = $user["user_id"];
+      $_SESSION["user_name"] = $user["user_name"];
+      $_SESSION["roles"] = $user["roles"];
+
+      if ($user["roles"] === "admin" || $user["roles"] === "staff") {
+        header("Location: admin/index.php");
+      } else {
+        header("Location: index.php");
+      }
+      exit;
+
+    } else {
+      $msg = "<div class='msg msg-error'>Password does not match</div>";
+    }
+  } else {
+    $msg = "<div class='msg msg-error'>Email does not match</div>";
+  }
 }
 ?>
 <!DOCTYPE html>
@@ -18,30 +62,7 @@ if (isset($_SESSION["user"])) {
 <div class="login-box">
   <h2>Login</h2>
 
-  <?php
-  if (isset($_POST["login"])) {
-    $email = $_POST["email"];
-    $password = $_POST["password"];
-
-    require_once "database.php";
-    $sql = "SELECT * FROM users WHERE email = '$email'";
-    $result = mysqli_query($conn, $sql);
-    $user = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
-    if ($user) {
-      if (password_verify($password, $user["password_hash"])) {
-        $_SESSION["user"] = $user["user_id"];
-        $_SESSION["role"] = $user["roles"];
-        header("Location: index.php");
-        exit;
-      } else {
-        echo "<div class='msg msg-error'>Password does not match</div>";
-      }
-    } else {
-      echo "<div class='msg msg-error'>Email does not match</div>";
-    }
-  }
-  ?>
+  <?php echo $msg; ?>
 
   <form action="login.php" method="post">
     <input type="email" name="email" placeholder="Enter Email" required>
