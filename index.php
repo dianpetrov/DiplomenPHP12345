@@ -525,11 +525,13 @@ if (!isset($_SESSION["user"])) {
         <div id="cart">
             <div class="taste-header">
                 <div class="user">
-                        <div class="account-pill">
-                                <i class="fa fa-user-circle" id="circle"></i>
-                                <span><?php echo htmlspecialchars($_SESSION["user_name"] ?? "Account", ENT_QUOTES, 'UTF-8');?></span>
-                                </div>
-                                <a href="logout.php" class="btn btn-sm btn-danger">Logout</a>
+                        <a href="account.php" class="account-pill">
+  <i class="fa fa-user-circle" id="circle"></i>
+  <span><?php echo htmlspecialchars($_SESSION["user_name"] ?? "Account", ENT_QUOTES, 'UTF-8'); ?></span>
+</a>
+
+<a href="logout.php" class="btn btn-sm btn-danger">Logout</a>
+
                                 </div>
             </div>
             <div id="category-list">
