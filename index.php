@@ -1,10 +1,32 @@
 <?php
 session_start();
-if (!isset($_SESSION["user_id"])) {
+if (!isset($_SESSION["user"])) {
     header("Location: login.php");
     exit;
 }
+
+require_once "database.php";
+
+/* 1. Взимаме всички категории */
+$categories = [];
+$resCat = mysqli_query($conn, "SELECT category_id, name FROM categories ORDER BY name");
+while ($row = mysqli_fetch_assoc($resCat)) {
+    $categories[] = $row;
+}
+
+/* 2. Взимаме всички налични продукти */
+$products = [];
+$sql = "
+    SELECT m.menu_id, m.menu_name, m.price, m.menu_image, m.category_id
+    FROM menu m
+    WHERE m.is_available = 1
+";
+$resProd = mysqli_query($conn, $sql);
+while ($p = mysqli_fetch_assoc($resProd)) {
+    $products[$p["category_id"]][] = $p;
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -51,52 +73,28 @@ if (!isset($_SESSION["user_id"])) {
             </div>
             <div id="food-items" class="d-food-items">
 
-                <div id="biryani" class="d-biryani">
-                    <p id="category-name">Biryani</p>
-                </div>
+                <?php foreach ($categories as $cat): ?>
+                    <p id="category-name"><?= htmlspecialchars($cat["name"]) ?></p>
 
-<!-- nova sekciq chicken-->
-                <div id="chicken" class="d-chicken">
-                    <p id="category-name">Chicken Delicious</p>   
-                </div>
+                <?php if (!empty($products[$cat["category_id"]])): ?>
+                <?php foreach ($products[$cat["category_id"]] as $item): ?>
+                    <div id="item-card">
+                        <?php if(!empty($item["menu_image"])): ?>
+                        <img src="<?= htmlspecialchars($item["menu_image"]) ?>" alt="">
+                        <?php endif; ?>
 
-<!-- nova sekciq chinese -->
-                <div id="chinese" class="d-chinese">
-                    <p id="category-name">Chinese Corner</p>
-                </div>
-<!-- nova sekciq vegetable -->
-                <div id="vegetable" class="d-vegetable">
-                    <p id="category-name">Vegetable</p>               
-                </div>
+                        <p id="item-name"><?= htmlspecialchars($item["menu_name"]) ?></p>
+                        <p id="item-price">$<?= number_format((float)$item["price"], 2) ?></p>
+                    </div>
+                        <?php endforeach; ?>
+                        <?php else: ?>
+                        <p style="margin-left:10px;">Няма продукти</p>
+                        <?php endif; ?>
 
-<!-- nova sekciq paneer -->
-                <div id="paneer" class="d-paneer">
-                    <p id="category-name">Paneer</p>
-                </div>
+                        <?php endforeach; ?>
+                            
+                    </div>
 
-                <div id="south-indian" class="d-south-indian">
-                    <p id="category-name">South Indian</p>
-            </div>
-
-            <div id="cart-page" class="cart-toggle">
-                <p id="cart-title">Cart Items</p>
-                <p id="m-total-amount">Total Amout : 100</p>
-                <table>
-                    <thead>
-                        <td>Item</td>
-                        <td>Name</td>
-                        <td>Quantity</td>
-                        <td>Price</td>
-                    </thead>
-                    <tbody id="table-body">
-                        
-                    </tbody>
-                </table>
-                <div class="btn-box">
-                    <button class="cart-btn">Checkout</button>
-                </div>
-            </div>
-        </div>
 
         <div id="cart">
             <div class="taste-header">
@@ -142,26 +140,30 @@ if (!isset($_SESSION["user_id"])) {
             <div class="category-header" id="category-header">  
             </div>
 
-            <div id="food-items" class="food-items">
-                <div id="biryani" class="m-biryani">
-                    <p id="category-name">Biryani</p>    
-                </div>
-                <div id="chicken" class="m-chicken">
-                    <p id="category-name">Chicken Delicious</p>    
-                </div>
-                <div id="paneer" class="m-paneer">
-                    <p id="category-name">Paneer Mania</p>
-                </div>
-                <div id="vegetable" class="m-vegetable">
-                    <p id="category-name">Pure Veg Dishes</p> 
-                </div>
-                <div id="chinese" class="m-chinese">
-                    <p id="category-name">Chinese Corner</p> 
-                </div>
-                <div id="south-indian" class="m-south-indian">
-                    <p id="category-name">South Indian</p>
-                </div>
-            </div>            
+           <div id="food-items" class="d-food-items">
+
+                <?php foreach ($categories as $cat): ?>
+    <p id="category-name"><?= htmlspecialchars($cat["name"]) ?></p>
+
+    <?php if (!empty($products[$cat["category_id"]])): ?>
+      <?php foreach ($products[$cat["category_id"]] as $item): ?>
+        <div id="item-card">
+          <?php if (!empty($item["menu_image"])): ?>
+            <img src="<?= htmlspecialchars($item["menu_image"]) ?>" alt="">
+          <?php endif; ?>
+
+          <p id="item-name"><?= htmlspecialchars($item["menu_name"]) ?></p>
+          <p id="item-price">$<?= number_format((float)$item["price"], 2) ?></p>
+        </div>
+      <?php endforeach; ?>
+    <?php else: ?>
+      <p style="margin-left:10px;">Няма продукти</p>
+    <?php endif; ?>
+
+  <?php endforeach; ?>
+
+</div>
+          
         </div>
 
         <div class="mobile-footer">
