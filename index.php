@@ -106,7 +106,7 @@ while ($row = mysqli_fetch_assoc($res)) {
                         <i class="fa fa-heart-o"></i>
                     </div>
 
-                    <img src="/DiplomenPHP/<?php echo htmlspecialchars($p["menu_image"]); ?>" alt="">
+                    <img src="<?php echo htmlspecialchars($p["menu_image"]); ?>" alt="">
                     <p id="item-name"><?php echo htmlspecialchars($p["menu_name"]); ?></p>
                     <p id="item-price"><?php echo number_format((float)$p["price"], 2); ?> лв.</p>
                 </div>

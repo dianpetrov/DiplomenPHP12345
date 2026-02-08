@@ -1,10 +1,11 @@
 <?php
-$hostName = "localhost";
+$hostName   = "127.0.0.1";
 $dbUser = "root";
-$dbPassword = "1234";
+$dbPassword = ""; 
 $dbName = "fastbreak";
-$conn = mysqli_connect($hostName, $dbUser, $dbPassword, $dbName);
+$port = 3307;  
+$conn = mysqli_connect($hostName, $dbUser, $dbPassword, $dbName, $port);
 if (!$conn) {
-    die("Something went wrong;");
+     die("DB connection failed: " . mysqli_connect_error());
 }
 ?>
