@@ -17,10 +17,11 @@ $products = [];
 if ($catId > 0) {
     $stmt = mysqli_prepare(
         $conn,
-        "SELECT menu_id, menu_name, price, menu_image, category_id
-        FROM menu
-        WHERE category_id = ?
-        ORDER BY menu_name"
+            "SELECT menu_id, menu_name, price, menu_image, category AS category_id
+            FROM menu
+            WHERE category = ?
+            ORDER BY menu_name"
+
     );
     mysqli_stmt_bind_param($stmt, "i", $catId);
     mysqli_stmt_execute($stmt);
@@ -29,10 +30,11 @@ if ($catId > 0) {
     $res = mysqli_query(
         $conn,
         "SELECT menu_id, menu_name, price, menu_image, category_id
-        FROM menu
-        ORDER BY menu_name"
+            FROM menu
+            ORDER BY menu_name"
     );
 }
+
 
 while ($row = mysqli_fetch_assoc($res)) {
     $products[] = $row;
