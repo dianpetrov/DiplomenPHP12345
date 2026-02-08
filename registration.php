@@ -51,16 +51,18 @@
         echo "<div class='msg msg-error'>$error</div>";
       }
     } else {
-      $sql = "INSERT INTO users(user_name, email, password_hash, address, phone) VALUES (?, ?, ?, ?, ?)";
-      $stmt = mysqli_stmt_init($conn);
-      $prepareStmt = mysqli_stmt_prepare($stmt, $sql);
+      $sql = "INSERT INTO users(user_name, email, password_hash, address, phone, roles)
+        VALUES (?, ?, ?, ?, ?, ?)";
+$stmt = mysqli_stmt_init($conn);
+$prepareStmt = mysqli_stmt_prepare($stmt, $sql);
 
-      if ($prepareStmt) {
-        mysqli_stmt_bind_param($stmt, "sssss", $fullName, $email, $passwordHash, $address, $phone);
-        mysqli_stmt_execute($stmt);
-        echo "<div class='msg msg-success'>You are registered successfully.</div>";
-      } else {
-        die("Something went wrong");
+if ($prepareStmt) {
+  $role = "user";
+  mysqli_stmt_bind_param($stmt, "ssssss", $fullName, $email, $passwordHash, $address, $phone, $role);
+  mysqli_stmt_execute($stmt);
+  echo "<div class='msg msg-success'>You are registered successfully.</div>";
+} else {
+  die("Something went wrong");
       }
     }
   }
