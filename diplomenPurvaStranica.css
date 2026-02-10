@@ -663,6 +663,29 @@ body {
         padding: 0;
     }
 }
+.util {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.util-btn {
+    text-decoration: none;
+    color: inherit;
+    padding: 8px 14px;
+    border: 1px solid #f3b3b3;
+    border-radius: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff;
+    font-size: 14px;
+}
+
+.util-btn:hover {
+    background: #ffecec;
+}
+
 
 /* Марджини за категории */
 #biryani, #paneer, #chicken, #vegetable, #chinese, #south-indian {
@@ -671,4 +694,18 @@ body {
 
 #biryani {
     margin-top: 10px;
+}
+/* Desktop: скриваме mobile view */
+#mobile-view {
+  display: none;
+}
+
+/* Mobile: показваме mobile view */
+@media (max-width: 768px) {
+  #mobile-view {
+    display: block;
+  }
+  #container {
+    display: none;
+  }
 }

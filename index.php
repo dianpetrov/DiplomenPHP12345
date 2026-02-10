@@ -4,11 +4,10 @@ require_once "database.php";
 
 $cartCount = 0;
 if (!empty($_SESSION["cart"])) {
-  foreach ($_SESSION["cart"] as $it) {
-    $cartCount += (int)$it["qty"];
-  }
+    foreach ($_SESSION["cart"] as $it) {
+        $cartCount += (int)$it["qty"];
+    }
 }
-
 
 /* Категории */
 $categories = [];
@@ -22,15 +21,16 @@ $catId = isset($_GET["cat"]) ? (int)$_GET["cat"] : 0;
 
 /* Продукти */
 $products = [];
+
 if ($catId > 0) {
     $stmt = mysqli_prepare(
         $conn,
-            "SELECT menu_id, menu_name, price, menu_image, category AS category_id
-            FROM menu
-            WHERE category = ?
-            ORDER BY menu_name"
-
+        "SELECT menu_id, menu_name, price, menu_image, category_id
+         FROM menu
+         WHERE category_id = ?
+         ORDER BY menu_name"
     );
+
     mysqli_stmt_bind_param($stmt, "i", $catId);
     mysqli_stmt_execute($stmt);
     $res = mysqli_stmt_get_result($stmt);
@@ -38,11 +38,10 @@ if ($catId > 0) {
     $res = mysqli_query(
         $conn,
         "SELECT menu_id, menu_name, price, menu_image, category_id
-            FROM menu
-            ORDER BY menu_name"
+         FROM menu
+         ORDER BY menu_name"
     );
 }
-
 
 while ($row = mysqli_fetch_assoc($res)) {
     $products[] = $row;
@@ -93,14 +92,27 @@ while ($row = mysqli_fetch_assoc($res)) {
                 <i class="fa fa-map-marker your-address" id="add-address"> Your Address</i>
             </div>
 
-            <div class="util">
-                <i class="fa fa-search"> Search</i>
-                <i class="fa fa-tags"> Offers</i>
-                <a href="cart.php" style="text-decoration:none; color:inherit;">
-                    <i class="fa fa-cart-plus" id="cart-plus"> <?= (int)$cartCount ?> Items</i>
-                </a>
+            <?php
+                $isAdmin = (isset($_SESSION["roles"]) && ($_SESSION["roles"] === "admin" || $_SESSION["roles"] === "staff"));
+            ?>
 
-            </div>
+                    <div class="util">
+                        <?php if ($isAdmin): ?>
+                            <a href="admin/index.php" style="text-decoration:none; color:inherit;">
+                                <i class="fa fa-cog"> Admin</i>
+                            </a>
+            <?php endif; ?>
+
+                    <i class="fa fa-search"> Search</i>
+                    <i class="fa fa-tags"> Offers</i>
+
+                    <a href="cart.php" style="text-decoration:none; color:inherit;">
+                    <i class="fa fa-cart-plus" id="cart-plus">
+            <?= (int)$cartCount ?> Items
+                    </i>
+                </a>
+</div>
+
         </div>
 
         <div id="food-items" class="d-food-items">
@@ -124,8 +136,8 @@ while ($row = mysqli_fetch_assoc($res)) {
                     <p id="item-price"><?php echo number_format((float)$p["price"], 2); ?> лв.</p>
 
                     <form action="add_to_cart.php" method="post" style="margin-top:8px;">
-                            <input type="hidden" name="menu_id" value="<?php echo (int)$p["menu_id"]; ?>">
-                            <button type="submit" style="padding:8px 10px; border:0; border-radius:10px; cursor:pointer;">Add to cart</button>
+                        <input type="hidden" name="menu_id" value="<?php echo (int)$p["menu_id"]; ?>">
+                        <button type="submit" style="padding:8px 10px; border:0; border-radius:10px; cursor:pointer;">Add to cart</button>
                     </form>
                 </div>
             <?php endforeach; ?>
