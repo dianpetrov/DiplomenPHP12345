@@ -2,6 +2,14 @@
 session_start();
 require_once "database.php";
 
+$cartCount = 0;
+if (!empty($_SESSION["cart"])) {
+  foreach ($_SESSION["cart"] as $it) {
+    $cartCount += (int)$it["qty"];
+  }
+}
+
+
 /* Категории */
 $categories = [];
 $resCat = mysqli_query($conn, "SELECT category_id, name FROM categories ORDER BY name");
@@ -88,7 +96,10 @@ while ($row = mysqli_fetch_assoc($res)) {
             <div class="util">
                 <i class="fa fa-search"> Search</i>
                 <i class="fa fa-tags"> Offers</i>
-                <i class="fa fa-cart-plus" id="cart-plus"> 0 Items</i>
+                <a href="cart.php" style="text-decoration:none; color:inherit;">
+                    <i class="fa fa-cart-plus" id="cart-plus"> <?= (int)$cartCount ?> Items</i>
+                </a>
+
             </div>
         </div>
 
@@ -111,6 +122,11 @@ while ($row = mysqli_fetch_assoc($res)) {
                     <img src="<?php echo htmlspecialchars($p["menu_image"]); ?>" alt="">
                     <p id="item-name"><?php echo htmlspecialchars($p["menu_name"]); ?></p>
                     <p id="item-price"><?php echo number_format((float)$p["price"], 2); ?> лв.</p>
+
+                    <form action="add_to_cart.php" method="post" style="margin-top:8px;">
+                            <input type="hidden" name="menu_id" value="<?php echo (int)$p["menu_id"]; ?>">
+                            <button type="submit" style="padding:8px 10px; border:0; border-radius:10px; cursor:pointer;">Add to cart</button>
+                    </form>
                 </div>
             <?php endforeach; ?>
         </div>

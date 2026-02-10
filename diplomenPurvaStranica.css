@@ -1,43 +1,69 @@
+/* =========================================
+   1. ИМПОРТ И ОСНОВНИ НАСТРОЙКИ
+   ========================================= */
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
-
 @import url('https://fonts.googleapis.com/css2?family=Aclonica&display=swap');
 
-html{
+html {
     height: 100%;
 }
-body{
+
+body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Open Sans', sans-serif;
     height: 100%;
 }
-.container{
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+/* =========================================
+   2. ГЛАВЕН КОНТЕЙНЕР (LAYOUT)
+   ========================================= */
+.container {
     display: grid;
     grid-template-columns: 250px 1fr 300px;
     min-height: 100vh;
     min-height: -webkit-fill-available;
     overflow: hidden;
 }
-#menu{
+
+.container#container {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* =========================================
+   3. ЛЯВО МЕНЮ (SIDEBAR)
+   ========================================= */
+#menu {
     background: whitesmoke;
 }
-.title{
+
+.title {
     padding: 0 30px;
 }
-#menu img{
+
+#menu img {
     width: 150px;
     height: 150px;
     border-radius: 50%;
     margin-top: -20px;
 }
-.title p{
+
+.title p {
     font-size: 40px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     color: indianred;
     margin: 0;
 }
-.border{
+
+.border {
     width: 80px;
     height: 4px;
     margin: 3px 0;
@@ -46,7 +72,7 @@ body{
     background: coral;
 }
 
-.menu-item a{
+.menu-item a {
     display: block;
     text-decoration: none;
     font-size: 20px;
@@ -55,17 +81,16 @@ body{
     margin: 12px 0;
     color: rgb(128, 129, 129);
     font-weight: 300;
-    
 }
-.menu-item a:hover{
+
+.menu-item a:hover {
     background: rgb(250, 212, 218);
 }
-#food-items{
-    background: whitesmoke;
-    overflow: auto;
-    height: calc(100vh - 86px);
-}
-#header{
+
+/* =========================================
+   4. ХЕДЪР И ТЪРСЕНЕ (MIDDLE SECTION)
+   ========================================= */
+#header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -76,18 +101,27 @@ body{
     background: whitesmoke;
     z-index: 1;
 }
-::-webkit-scrollbar{
-    display: none;
-}
-#header .address{
+
+#header .address {
     font-size: 20px;
-    
 }
-#map{
+
+#header select {
+    width: 150px;
+    overflow: hidden;
+    border: none;
+    outline: none;
+    background: none;
+    color: rosybrown;
+    padding: 0 5px;
+}
+
+#map {
     font-size: 25px;
     color: red;
 }
-.your-address{
+
+.your-address {
     border: 1px solid indianred;
     color: indianred;
     padding: 5px 10px;
@@ -98,26 +132,12 @@ body{
     text-overflow: ellipsis;
     cursor: pointer;
 }
-.add-box i{
+
+.add-box i {
     font-size: 20px;
 }
 
-#header select{
-    width: 150px;
-    overflow: hidden;
-    border: none;
-    outline: none;
-    background: none;
-    color: rosybrown;
-    padding: 0 5px;
-}
-.food-items{
-    display: none;
-}
-.cart-toggle{
-    display: block;
-}
-.util i,.user i{
+.util i, .user i {
     font-size: 18px;
     margin: 0 16px;
     border: 1px solid crimson;
@@ -126,90 +146,199 @@ body{
     border-radius: 20px;
     cursor: pointer;
 }
-.util i:active{
+
+.util i:active {
     color: white;
     background: crimson;
 }
-#biryani,#paneer,#chicken,#vegetable,#chinese,#south-indian{
-    margin-top: 40px;   
+
+/* =========================================
+   5. ПРОДУКТОВИ КАРТИ (ITEM CARDS)
+   ========================================= */
+#food-items {
+    background: whitesmoke;
+    overflow: auto;
+    height: calc(100vh - 86px);
 }
-#paneer #item-card,#vegetable #item-card{
-    background: rgb(218, 253, 188);
-}
-#chinese #item-card,#south-indian #item-card{
-    background: rgb(221, 243, 243);
-}
-#category-name,.item-menu{
+
+#category-name, .item-menu {
     margin: 10px;
-    font-size: 35px;   
+    font-size: 35px;
     color: coral;
     font-family: 'Aclonica', sans-serif;
 }
-#item-card{
-    width: 180px;
-    height: 240px;
-    padding: 10px;
-    margin: 10px;
-    display: inline-block;
-    border-radius: 5px;
+
+#item-card {
+    width: 220px;
+    min-height: 350px;
+    padding: 15px;
+    margin: 15px;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 15px;
     background: rgb(253, 221, 226);
     cursor: pointer;
-    transition: 0.5s all step-end;
+    transition: 0.3s all ease-in-out;
+    vertical-align: top;
 }
-#item-card:hover img{
+
+#item-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+#item-card img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    margin: 0 auto 10px auto;
+    display: block;
+    transition: 0.4s all ease-in-out;
+    object-fit: cover;
+}
+
+#item-card:hover img {
     transform: scale(1.2);
 }
-#cart-top{
-    display: flex;
-    margin: 5px 0;
-    justify-content: space-between;
-}
-#rating{
-    padding: 7px;
-    color: goldenrod;
-    background: black;
-    font-size: 14px;
-    border-radius: 15px;
-}
-.fa-heart-o{
-    padding: 6px;
-    border-radius: 50%;
-    background: white;
-    cursor: pointer;
-}
-.toggle-heart{
-background: orangered;
-color: white; 
-}
-#item-card img{
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    margin: auto;
-    display: block;
-    margin-bottom: 15px;
-    transition: 0.5s all ease-in-out;
-}
-#item-name{
-    margin: 5px 0;
+
+#item-name {
+    margin: 10px 0 5px 0;
     font-weight: 600;
     color: darkslategray;
     font-size: 18px;
+    min-height: 44px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
-#item-price{
+
+#item-price {
     margin: 0;
     color: rgb(2, 27, 27);
     font-weight: 500;
     font-size: 18px;
 }
 
-.food-items{
-    display: none;
+/* Цветови вариации за карти */
+#paneer #item-card, #vegetable #item-card {
+    background: rgb(218, 253, 188);
 }
-.cart-toggle{
-    display: none;
+
+#chinese #item-card, #south-indian #item-card {
+    background: rgb(221, 243, 243);
 }
-#cart-page{
+
+/* Елементи вътре в картата */
+#cart-top {
+    display: flex;
+    margin: 5px 0;
+    justify-content: space-between;
+}
+
+#rating {
+    padding: 7px;
+    color: goldenrod;
+    background: black;
+    font-size: 14px;
+    border-radius: 15px;
+}
+
+.fa-heart-o {
+    padding: 6px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+}
+
+.toggle-heart {
+    background: orangered;
+    color: white;
+}
+
+#item-card form {
+    margin-top: auto;
+    width: 100%;
+}
+
+#item-card form button {
+    width: 100%;
+    background-color: coral;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+#item-card form button:hover {
+    background-color: indianred;
+    transform: translateY(-2px);
+}
+
+/* =========================================
+   6. ДЯСНА ЧАСТ (CART & CATEGORY LIST)
+   ========================================= */
+#cart {
+    background: whitesmoke;
+    padding-right: 30px;
+    overflow-y: scroll;
+}
+
+.taste-header {
+    padding-top: 40px;
+    padding-bottom: 10px;
+    position: sticky;
+    top: 0;
+    background: whitesmoke;
+}
+
+.item-menu {
+    margin: 0;
+    font-size: 30px;
+    margin-top: 40px;
+    color: indianred;
+    background: whitesmoke;
+}
+
+.list-card {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.3s all ease-in-out;
+}
+
+.list-card:hover {
+    background: rgb(255, 216, 222);
+}
+
+.list-card img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.list-card:hover img {
+    transition: 0.5s all ease-in-out;
+    transform: scale(1.2);
+}
+
+.list-name {
+    font-size: 20px;
+    margin: 0 10px;
+    text-decoration: none;
+    text-transform: capitalize;
+    color: rgb(94, 43, 43);
+}
+
+/* =========================================
+   7. СТРАНИЦА КОЛИЧКА (CART PAGE)
+   ========================================= */
+#cart-page {
     background: white;
     margin: 40px 10px;
     margin-right: 50px;
@@ -217,22 +346,47 @@ color: white;
     padding-bottom: 30px;
     position: relative;
 }
-#cart-title{
+
+#cart-title {
     font-size: 35px;
     margin: 0;
     color: indianred;
 }
-#cart-page table{
+
+#cart-page table {
     width: 100%;
     margin-top: 20px;
     text-align: center;
 }
-#cart-page table thead td{
+
+#cart-page table thead td {
     font-size: 25px;
     padding-bottom: 10px;
 }
 
-.cart-btn{
+#cart-page table tbody td {
+    padding: 10px 0;
+    font-size: 20px;
+}
+
+#cart-page table tbody button {
+    outline: none;
+    border: none;
+    font-size: 16px;
+    background: lightcoral;
+    color: white;
+    border-radius: 3px;
+    cursor: pointer;
+    margin: 0 5px;
+}
+
+#cart-page table tbody img {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+}
+
+.cart-btn {
     outline: none;
     border: none;
     background: crimson;
@@ -245,132 +399,100 @@ color: white;
     margin: 15px 0;
     cursor: pointer;
 }
-#cart-page table tbody td{
-    padding: 10px 0;
-    font-size: 20px;
-}
-#cart-page table tbody button{
-    outline: none;
-    border: none;
-    font-size: 16px;
-    background: none;
-    background: lightcoral;
-    color: white;
-    border-radius: 3px;
-    cursor: pointer;
-    margin: 0 5px;
-}
-#cart-page table tbody img{
-    width: 75px;
-    height: 75px;
-    border-radius: 50%;
-}
-#checkout{
+
+#checkout {
     text-align: center;
     margin: 40px auto;
     border-radius: 5px;
     background: white;
     padding: 10px 20px;
 }
-#checkout p{
+
+#checkout p {
     margin: 15px 0;
     float: left;
 }
-#total-price,#total-item{
+
+#total-price, #total-item {
     font-size: 25px;
     color: indianred;
 }
-#delievery{
+
+#delievery {
     font-size: 20px;
     color: limegreen;
 }
-#cart{
-    background: whitesmoke;
-    padding-right: 30px;
-    overflow-y: scroll;
+
+.food-items, .cart-toggle {
+    display: none;
 }
 
-.item-menu{
-    margin: 0;
-    font-size: 30px;
-    margin-top: 40px;
-    color: indianred;
-    background: whitesmoke;
-    
-}
-.list-card{
+/* =========================================
+   8. ПОТРЕБИТЕЛСКИ ПРОФИЛ (USER ACC)
+   ========================================= */
+.user {
     display: flex;
     align-items: center;
-    margin-top: 15px;
-    border-radius: 25px;
+    gap: 10px;
+}
+
+.user .account-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     cursor: pointer;
-    transition: 0.3s all ease-in-out;
+    border: 1px solid crimson;
+    padding: 8px 16px;
+    color: crimson;
+    border-radius: 20px;
+    font-size: 18px;
+    text-decoration: none !important;
 }
-.list-card:hover{
-    background: rgb(255, 216, 222);
+
+.user .account-pill i {
+    margin: 0;
+    border: none;
+    padding: 0;
 }
-.list-card:hover img{
-    transition: 0.5s all ease-in-out;
-    transform: scale(1.2);
-}
-.list-card img{
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-}
-.list-name{
-    font-size: 20px;
-    margin: 0 10px;
-    text-decoration: none;
-    text-transform: capitalize;
-    color: rgb(94, 43, 43);
-}
-.taste-header{
-    padding-top: 40px;
-    padding-bottom: 10px;
-    position: sticky;
-    top: 0;
-    background: whitesmoke;
-}
-#mobile-view{
-    display: none;
-}
-#biryani{
-    margin-top: 10px;
-}
-#m-total-amount{
-    display: none;
-}
-@media screen and (max-width : 800px) and (-webkit-min-device-pixel-ratio: 2){
-    .container{
+
+/* =========================================
+   9. МОБИЛНА ВЕРСИЯ (RESPONSIVE)
+   ========================================= */
+@media screen and (max-width : 800px) and (-webkit-min-device-pixel-ratio: 2) {
+    .container {
         display: none;
     }
-    #mobile-view{
+
+    #mobile-view {
         display: grid;
         grid-template-rows: 120px 1fr 50px;
         height: 100%;
         overflow: hidden;
-        
         width: 100vw;
     }
-    .mobile-top{
+
+    .mobile-top {
         padding: 5px 15px;
         background: white;
         z-index: 1;
     }
-    .item-container{
+
+    .item-container {
         overflow-y: scroll;
     }
-    .logo-box,.top-menu{
+
+    .logo-box, .top-menu {
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
-    #logo{
+
+    #logo {
         width: 90px;
         height: 70px;
     }
-    .logo-box .your-address{
+
+    .logo-box .your-address {
         font-size: 18px;
         width: 150px;
         color: crimson;
@@ -379,22 +501,24 @@ color: white;
         overflow: hidden;
         text-overflow: ellipsis;
     }
-    .top-menu{
 
+    .top-menu {
         color: indianred;
     }
-    .top-menu i{
+
+    .top-menu i {
         font-size: 20px;
         cursor: pointer;
-        padding: 12px 5px ;
+        padding: 12px 5px;
         border-radius: 50%;
     }
-    
-    .m-cart-toggle{
+
+    .m-cart-toggle {
         color: white;
         background: lightcoral;
     }
-    .category-header{
+
+    .category-header {
         display: flex;
         width: 100vw;
         overflow-x: scroll;
@@ -407,151 +531,144 @@ color: white;
         transform: translateZ(0);
         -webkit-transform: translateZ(0);
     }
-    .toggle-category{
+
+    .toggle-category {
         display: none;
         position: relative;
     }
-    .list-card{
+
+    .list-card {
         margin: 0 10px;
         text-align: center;
+        flex-direction: column;
     }
-    .list-card img{
+
+    .list-card img {
         width: 60px;
         height: 60px;
         border-radius: 50%;
     }
-    .list-card:hover{
+
+    .list-card:hover {
         background: none;
     }
-    .list-card:hover img{
+
+    .list-card:hover img {
         transform: none;
         transition: none;
     }
-    .list-name{
+
+    .list-name {
         margin: 5px 0;
         color: coral;
         width: max-content;
         font-size: 16px;
     }
-    #food-items{        
+
+    #food-items {
         padding: 5px 10px;
     }
 
-    .mobile-footer{
+    #category-name {
+        font-size: 25px;
+        font-family: 'Aclonica', sans-serif;
+    }
+
+    #item-card {
+        width: 150px;
+        height: 200px; /* Тук може да премахнеш фиксираната височина, ако искаш и на мобилни да се разпъват */
+    }
+
+    #item-card img {
+        width: 100px;
+        height: 100px;
+    }
+
+    #item-name, #item-price {
+        font-size: 16px;
+    }
+
+    .mobile-footer {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 5px 15px;
         background: white;
         border-top: 1px solid rgb(219, 219, 219);
-    }
-    .mobile-footer{
         color: indianred;
         text-transform: uppercase;
         font-size: 16px;
         position: static;
     }
-    #category-name{
-        font-size: 25px;
-        font-family: 'Aclonica', sans-serif;
-    }
-    #item-card{
-        width: 150px;
-        height: 200px;
-    }
-    #item-card img{
-        width: 100px;
-        height: 100px;
-    }
-    #item-name,#item-price{
-        font-size: 16px;
-    }
-    .list-card{
-        flex-direction: column;
-    }
-    #cart-page{
+
+    #cart-page {
         margin: 3px 0;
         padding: 10px 5px;
         padding-bottom: 30px;
         border-top: 1px solid rgb(219, 219, 219);
     }
-    #cart-page table thead td{
+
+    #cart-page table thead td {
         font-size: 20px;
     }
-    #cart-page table tbody td{
+
+    #cart-page table tbody td {
         font-size: 18px;
     }
-    #cart-page table tbody img{
+
+    #cart-page table tbody img {
         width: 60px;
         height: 60px;
     }
-    #cart-title{
+
+    #cart-title {
         font-size: 25px;
         display: inline-block;
         font-family: 'Aclonica', sans-serif;
     }
-    #m-total-amount{
+
+    #m-total-amount {
         display: inline-block;
         color: lightcoral;
         padding: 5px 10px;
         margin: 0;
-        border:  1px solid lightcoral;
+        border: 1px solid lightcoral;
         float: right;
     }
-    .cart-btn{
+
+    .cart-btn {
         font-size: 14px;
         background: lightcoral;
         padding: 8px 15px;
         margin: auto;
     }
-    .btn-box{
+
+    .btn-box {
         text-align: center;
     }
-    
-}
-.container#container{
-    width: 100% !important;
-    max-width: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-.user{
-    display: flex;
-    align-items: center;
-    gap: 10px;
 }
 
-.user .account-pill{
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    border: 1px solid crimson;
-    padding: 8px 16px;
-    color: crimson;
-    border-radius: 20px;
-    font-size: 18px;
-}
-.user .account-pill i{
-  margin: 0;       /* маха margin-а от .user i */
-  border: none;    /* маха втори бордър */
-  padding: 0;      /* маха падинг */
-}
-.account-pill{
-text-decoration: none !important;
-}
-
-
-
-@media screen and (max-width : 400px) and (-webkit-min-device-pixel-ratio: 2){
-    #mobile-view{
+/* Специфични корекции за малки екрани */
+@media screen and (max-width : 400px) and (-webkit-min-device-pixel-ratio: 2) {
+    #mobile-view {
         min-height: -webkit-fill-available;
     }
-    #item-card{
+
+    #item-card {
         height: 200px;
         width: 140px;
     }
-    #food-items{
+
+    #food-items {
         padding: 0;
     }
+}
+
+/* Марджини за категории */
+#biryani, #paneer, #chicken, #vegetable, #chinese, #south-indian {
+    margin-top: 40px;
+}
+
+#biryani {
+    margin-top: 10px;
 }
