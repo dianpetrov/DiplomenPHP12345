@@ -133,7 +133,7 @@ while ($row = mysqli_fetch_assoc($res)) {
 
                     <img src="<?php echo htmlspecialchars($p["menu_image"]); ?>" alt="">
                     <p id="item-name"><?php echo htmlspecialchars($p["menu_name"]); ?></p>
-                    <p id="item-price"><?php echo number_format((float)$p["price"], 2); ?> лв.</p>
+                    <p id="item-price"><?php echo number_format((float)$p["price"], 2); ?>€</p>
 
                     <form action="add_to_cart.php" method="post" style="margin-top:8px;">
                         <input type="hidden" name="menu_id" value="<?php echo (int)$p["menu_id"]; ?>">

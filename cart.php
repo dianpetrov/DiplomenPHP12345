@@ -58,8 +58,8 @@ foreach ($cart as $item) {
               </form>
             </td>
 
-            <td style="padding:10px;"><?= number_format((float)$item["price"], 2) ?> лв.</td>
-            <td style="padding:10px;"><?= number_format($subtotal, 2) ?> лв.</td>
+            <td style="padding:10px;"><?= number_format((float)$item["price"], 2) ?>€</td>
+            <td style="padding:10px;"><?= number_format($subtotal, 2) ?>€</td>
 
             <td style="padding:10px;">
               <form action="remove_from_cart.php" method="post">
@@ -80,7 +80,7 @@ foreach ($cart as $item) {
       </form>
 
       <div style="font-size:18px;">
-        <b>Total:</b> <?= number_format($total, 2) ?> лв.
+        <b>Total:</b> <?= number_format($total, 2) ?> €
       </div>
     </div>
 
