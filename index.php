@@ -76,9 +76,9 @@ while ($row = mysqli_fetch_assoc($res)) {
         <div class="menu-item">
             <a href="#">About</a>
             <a href="#">Services</a>
-            <a href="#">Your Orders</a>
+            <a class="menu-item" href="ordersNoAdmin.php">Your Orders</a>
             <a href="#">Wishlists</a>
-            <a href="#">Cart</a>
+            <a class="menu-item" href="cart.php">Cart</a>
             <a href="#">Contact</a>
             <a href="#">Checkout</a>
         </div>
