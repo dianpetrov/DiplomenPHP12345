@@ -355,7 +355,11 @@ body {
 
 #cart-page table {
     width: 100%;
+    border-collapse: collapse;
+    background: white;
     margin-top: 20px;
+    border-radius: 15px;
+    overflow: hidden;
     text-align: center;
 }
 
@@ -365,7 +369,10 @@ body {
 }
 
 #cart-page table tbody td {
-    padding: 10px 0;
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
     font-size: 20px;
 }
 
@@ -602,10 +609,12 @@ body {
     }
 
     #cart-page {
-        margin: 3px 0;
-        padding: 10px 5px;
-        padding-bottom: 30px;
-        border-top: 1px solid rgb(219, 219, 219);
+        max-width: 1000px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
     }
 
     #cart-page table thead td {
@@ -700,6 +709,96 @@ body {
   display: none;
 }
 
+ /* Основен контейнер под таблицата */
+#checkout-container {
+    margin-top: 30px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 15px;
+}
+
+.checkout-footer {
+    display: flex;
+    justify-content: space-between; /* Разделя ляво от дясно */
+    align-items: flex-start;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Стилизиране на бутона Clear Cart */
+.btn-secondary {
+    background: #f5f5f5;
+    color: #666;
+    border: 1px solid #ddd;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-secondary:hover {
+    background: #e53935;
+    color: #fff;
+    border-color: #e53935;
+}
+
+/* Дясна секция с цените */
+.footer-right {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Прави разстояние между редовете, за да не са залепени */
+}
+
+.summary-item {
+    font-size: 16px;
+    color: #555;
+}
+
+.summary-item .label {
+    margin-right: 10px;
+}
+
+.summary-item .value {
+    font-weight: bold;
+    color: #333;
+}
+
+.total-row {
+    font-size: 22px;
+}
+
+.total-price {
+    color: indianred !important;
+}
+
+.delivery-badge {
+    color: #2e7d32; /* Зелено за безплатна доставка */
+    font-weight: 600;
+    font-size: 14px;
+    background: #e8f5e9;
+    padding: 5px 12px;
+    border-radius: 15px;
+    display: inline-block;
+    align-self: flex-end;
+}
+
+/* Центриране на финалния бутон */
+.place-order-wrapper {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.place-order {
+    width: 100%;
+    max-width: 400px;
+    padding: 18px !important;
+    font-size: 20px !important;
+    background: crimson !important;
+    border-radius: 30px !important;
+    box-shadow: 0 4px 15px rgba(220, 20, 60, 0.3);
+}
 /* Mobile: показваме mobile view */
 @media (max-width: 768px) {
   #mobile-view {

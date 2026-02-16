@@ -1,99 +1,113 @@
 <?php
 session_start();
-
 $cart = $_SESSION["cart"] ?? [];
 $total = 0;
-
 foreach ($cart as $item) {
-  $total += ((float)$item["price"]) * ((int)$item["qty"]);
+    $total += ((float)$item["price"]) * ((int)$item["qty"]);
 }
 ?>
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cart</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Cart - Food Order</title>
+    <link rel="stylesheet" href="diplomenPurvaStranica.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body>
+<body class="cart-body">
 
-<div style="max-width:900px; margin:40px auto; padding:24px;">
-  <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
-    <h2 style="margin:0;">Your Cart</h2>
-    <a href="index.php" style="text-decoration:none;">← Back to shop</a>
-  </div>
-
-  <?php if (empty($cart)): ?>
-    <p style="margin-top:16px;">Количката е празна.</p>
-  <?php else: ?>
-    <table style="width:100%; margin-top:16px; border-collapse:collapse;">
-      <thead>
-        <tr style="text-align:left; border-bottom:1px solid #ddd;">
-          <th style="padding:10px;">Item</th>
-          <th style="padding:10px;">Name</th>
-          <th style="padding:10px;">Qty</th>
-          <th style="padding:10px;">Price</th>
-          <th style="padding:10px;">Subtotal</th>
-          <th style="padding:10px;">Remove</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php foreach ($cart as $id => $item): 
-          $subtotal = ((float)$item["price"]) * ((int)$item["qty"]);
-        ?>
-          <tr style="border-bottom:1px solid #eee;">
-            <td style="padding:10px;">
-              <?php if (!empty($item["image"])): ?>
-                <img src="<?= htmlspecialchars($item["image"]) ?>" alt="" style="width:60px; height:60px; object-fit:cover; border-radius:10px;">
-              <?php endif; ?>
-            </td>
-            <td style="padding:10px;"><?= htmlspecialchars($item["name"]) ?></td>
-
-            <td style="padding:10px;">
-              <form action="update_cart.php" method="post" style="display:flex; gap:8px; align-items:center;">
-                <input type="hidden" name="menu_id" value="<?= (int)$item["menu_id"] ?>">
-                <input type="number" name="qty" value="<?= (int)$item["qty"] ?>" min="1" max="50" style="width:70px;">
-                <button type="submit" style="padding:6px 10px;">Update</button>
-              </form>
-            </td>
-
-            <td style="padding:10px;"><?= number_format((float)$item["price"], 2) ?> € </td>
-            <td style="padding:10px;"><?= number_format($subtotal, 2) ?> € </td>
-
-            <td style="padding:10px;">
-              <form action="remove_from_cart.php" method="post">
-                <input type="hidden" name="menu_id" value="<?= (int)$item["menu_id"] ?>">
-                <button type="submit" style="padding:6px 10px; background:#e53935; color:#fff; border:0; border-radius:8px;">
-                  X
-                </button>
-              </form>
-            </td>
-          </tr>
-        <?php endforeach; ?>
-      </tbody>
-    </table>
-
-    <div style="margin-top:16px; display:flex; justify-content:space-between; align-items:center;">
-      <form action="clear_cart.php" method="post">
-        <button type="submit" style="padding:10px 14px;">Clear cart</button>
-      </form>
-
-      <div style="font-size:18px;">
-        <b>Total:</b> <?= number_format($total, 2) ?> €
-      </div>
+<div id="cart-page">
+    <div class="cart-header">
+        <h2 id="cart-title">Your Cart</h2>
     </div>
 
-    <!-- Checkout: правим поръчка -->
-<div style="margin-top:16px;">
-  <form action="place_order.php" method="post">
-    <button type="submit" style="padding:12px 16px;">
-      Place order
-    </button>
-  </form>
-</div>
+    <?php if (empty($cart)): ?>
+        <div class="empty-cart">
+            <p>Количката е празна.</p>
+            <a href="index.php" class="cart-btn">Go to menu</a>
+        </div>
+    <?php else: ?>
+        <table>
+            <thead>
+                <tr>
+                    <td>Item</td>
+                    <td>Name</td>
+                    <td>Qty</td>
+                    <td>Price</td>
+                    <td>Subtotal</td>
+                    <td>Remove</td>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($cart as $id => $item): 
+                    $subtotal = ((float)$item["price"]) * ((int)$item["qty"]);
+                ?>
+                <tr>
+                    <td>
+                        <?php if (!empty($item["image"])): ?>
+                            <img src="<?= htmlspecialchars($item["image"]) ?>" alt="" style="width:80px; height:80px; object-fit:cover; border-radius:10px;">
+                        <?php endif; ?>
+                    </td>
+                    <td class="item-name-cell" style="min-width: 150px; max-width: 250px; text-align: left;">
+                    <?= htmlspecialchars($item["name"]) ?>
+                    </td>
+                    <td>
+                        <form action="update_cart.php" method="post" class="update-form">
+                            <input type="hidden" name="menu_id" value="<?= (int)$item["menu_id"] ?>">
+                            <input type="number" name="qty" value="<?= (int)$item["qty"] ?>" min="1" max="50">
+                            <button type="submit" class="update-btn" style="margin-left: 5px;">Update</button>
+                        </form>
+                    </td>
+                    <td><?= number_format((float)$item["price"], 2) ?> €</td>
+                    <td class="subtotal-cell"><?= number_format($subtotal, 2) ?> €</td>
+                    <td>
+                        <form action="remove_from_cart.php" method="post">
+                            <input type="hidden" name="menu_id" value="<?= (int)$item["menu_id"] ?>">
+                            <button type="submit" class="remove-btn">
+                                <i class="fa fa-trash-o"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
 
-  <?php endif; ?>
+        <div id="checkout-container">
+    <div class="checkout-footer">
+        <div class="footer-left">
+            <form action="clear_cart.php" method="post">
+                <button type="submit" class="btn-secondary">
+                    <i class="fa fa-trash"></i> Clear cart
+                </button>
+            </form>
+        </div>
+
+        <div class="footer-right">
+            <div class="summary-item">
+                <span class="label">Total Items:</span>
+                <span class="value"><?= count($cart) ?></span>
+            </div>
+            <div class="summary-item total-row">
+                <span class="label">Total Amount:</span>
+                <span class="value total-price"><?= number_format($total, 2) ?> €</span>
+            </div>
+            <div class="delivery-badge">
+                <i class="fa fa-truck"></i> Free Delivery
+            </div>
+        </div>
+    </div>
+
+    <div class="place-order-wrapper">
+        <form action="place_order.php" method="post">
+            <button type="submit" class="cart-btn place-order">
+                PLACE ORDER
+            </button>
+        </form>
+    </div>
+</div>
+    <?php endif; ?>
 </div>
 
 </body>
