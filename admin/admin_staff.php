@@ -28,5 +28,9 @@ if ($user["roles"] !== "admin" && $user["roles"] !== "staff") {
   die("Forbidden: Admin/Staff only.");
 }
 
+/* 🔥 СИНХРОНИЗИРАМЕ SESSION С БАЗАТА */
+$_SESSION["roles"] = $user["roles"];
+$_SESSION["user_name"] = $user["user_name"];
+
 $ADMIN_NAME = $user["user_name"];
 $ADMIN_ROLE = $user["roles"];

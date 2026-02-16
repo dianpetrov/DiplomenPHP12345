@@ -1,4 +1,3 @@
-
 <?php require_once __DIR__ . "/admin_staff.php"; ?> 
 <!doctype html>
 <html lang="bg">
@@ -15,23 +14,27 @@
   <p>Здрасти, <?= htmlspecialchars($ADMIN_NAME) ?> (<?= htmlspecialchars($ADMIN_ROLE) ?>)</p>
 
   <?php
-$role = $_SESSION["roles"] ?? "";
-?>
+    // Вземаме ролята от guard-а (от базата), а не от session
+    $role = $ADMIN_ROLE;
+  ?>
 
-<div style="display:flex; gap:12px; margin-top:20px;">
+  <div style="display:flex; gap:12px; margin-top:20px;">
 
-  <?php if ($role === "admin"): ?>
-      <a href="categories.php">Категории</a>
-      <a href="menu.php">Продукти (Menu)</a>
-  <?php endif; ?>
+    <?php if ($role === "admin"): ?>
+        <a href="categories.php">Категории</a>
+        <a href="menu.php">Продукти (Menu)</a>
+    <?php endif; ?>
 
-  <?php if ($role === "admin" || $role === "staff"): ?>
-      <a href="orders.php">Поръчки</a>
-  <?php endif; ?>
+    <?php if ($role === "admin" || $role === "staff"): ?>
+        <a href="orders.php">Поръчки</a>
+    <?php endif; ?>
 
-  <a href="logout.php">Logout</a>
 
-</div>
+    <a href="../index.php">Back to Shop</a>
+
+    <a href="../logout.php">Logout</a>
+    
+  </div>
 
 </body>
 </html>
