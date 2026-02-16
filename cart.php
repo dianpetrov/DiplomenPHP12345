@@ -58,8 +58,8 @@ foreach ($cart as $item) {
               </form>
             </td>
 
-            <td style="padding:10px;"><?= number_format((float)$item["price"], 2) ?> лв.</td>
-            <td style="padding:10px;"><?= number_format($subtotal, 2) ?> лв.</td>
+            <td style="padding:10px;"><?= number_format((float)$item["price"], 2) ?> € </td>
+            <td style="padding:10px;"><?= number_format($subtotal, 2) ?> € </td>
 
             <td style="padding:10px;">
               <form action="remove_from_cart.php" method="post">
@@ -80,16 +80,18 @@ foreach ($cart as $item) {
       </form>
 
       <div style="font-size:18px;">
-        <b>Total:</b> <?= number_format($total, 2) ?> лв.
+        <b>Total:</b> <?= number_format($total, 2) ?> €
       </div>
     </div>
 
-    <!-- Checkout ще го направим след това -->
-    <div style="margin-top:16px;">
-      <button disabled style="padding:12px 16px; opacity:.6;">
-        Checkout (следващата стъпка)
-      </button>
-    </div>
+    <!-- Checkout: правим поръчка -->
+<div style="margin-top:16px;">
+  <form action="place_order.php" method="post">
+    <button type="submit" style="padding:12px 16px;">
+      Place order
+    </button>
+  </form>
+</div>
 
   <?php endif; ?>
 </div>

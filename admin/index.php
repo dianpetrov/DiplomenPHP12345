@@ -1,5 +1,5 @@
 
-<?php require_once __DIR__ . "/admin_guard.php"; ?> 
+<?php require_once __DIR__ . "/admin_staff.php"; ?> 
 <!doctype html>
 <html lang="bg">
 <head>
@@ -14,8 +14,24 @@
   <h2>Admin Panel</h2>
   <p>Здрасти, <?= htmlspecialchars($ADMIN_NAME) ?> (<?= htmlspecialchars($ADMIN_ROLE) ?>)</p>
 
-  <a href="categories.php">Категории</a>
-  <a href="menu.php">Продукти (Menu)</a>
-  <a href="../logout.php">Logout</a>
+  <?php
+$role = $_SESSION["roles"] ?? "";
+?>
+
+<div style="display:flex; gap:12px; margin-top:20px;">
+
+  <?php if ($role === "admin"): ?>
+      <a href="categories.php">Категории</a>
+      <a href="menu.php">Продукти (Menu)</a>
+  <?php endif; ?>
+
+  <?php if ($role === "admin" || $role === "staff"): ?>
+      <a href="orders.php">Поръчки</a>
+  <?php endif; ?>
+
+  <a href="logout.php">Logout</a>
+
+</div>
+
 </body>
 </html>

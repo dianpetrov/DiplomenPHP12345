@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/admin_guard.php";
+require_once __DIR__ . "/admin_only.php";
 require_once __DIR__ . "/../database.php"; // дава $conn
 
 $error = "";
