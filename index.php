@@ -97,21 +97,36 @@ while ($row = mysqli_fetch_assoc($res)) {
             ?>
 
                     <div class="util">
-                        <?php if ($isAdmin): ?>
-                            <a href="admin/index.php" style="text-decoration:none; color:inherit;">
-                                <i class="fa fa-cog"> Admin</i>
-                            </a>
-            <?php endif; ?>
 
-                    <i class="fa fa-search"> Search</i>
-                    <i class="fa fa-tags"> Offers</i>
+    <button class="util-btn">
+        <i class="fa fa-search"></i>
+        <span>Search</span>
+    </button>
 
-                    <a href="cart.php" style="text-decoration:none; color:inherit;">
-                    <i class="fa fa-cart-plus" id="cart-plus">
-            <?= (int)$cartCount ?> Items
-                    </i>
-                </a>
+    <button class="util-btn">
+        <i class="fa fa-tags"></i>
+        <span>Offers</span>
+    </button>
+
+    <a href="cart.php" class="util-btn">
+        <i class="fa fa-cart-plus"></i>
+        <span><?= (int)$cartCount ?> Items</span>
+    </a>
+
+    <?php if (!empty($_SESSION["user_name"])): ?>
+        <a href="account.php" class="util-btn">
+            <i class="fa fa-user-circle"></i>
+            <span><?= htmlspecialchars($_SESSION["user_name"], ENT_QUOTES, 'UTF-8'); ?></span>
+        </a>
+    <?php else: ?>
+        <a href="login.php" class="util-btn">
+            <i class="fa fa-user-circle"></i>
+            <span>Account</span>
+        </a>
+    <?php endif; ?>
+
 </div>
+
 
         </div>
 
@@ -171,14 +186,6 @@ while ($row = mysqli_fetch_assoc($res)) {
     <div id="cart">
 
         <div class="taste-header">
-            <div class="user">
-                <a href="account.php" class="account-pill">
-                    <i class="fa fa-user-circle" id="circle"></i>
-                    <span><?php echo htmlspecialchars($_SESSION["user_name"] ?? "Account", ENT_QUOTES, 'UTF-8'); ?></span>
-                </a>
-            </div>
-        </div>
-
         <div id="category-list">
             <p class="item-menu">Go For Hunt</p>
             <div class="border"></div>

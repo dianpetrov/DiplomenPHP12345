@@ -679,20 +679,34 @@ body {
 }
 
 .util-btn {
-    text-decoration: none;
-    color: inherit;
-    padding: 8px 14px;
-    border: 1px solid #f3b3b3;
-    border-radius: 18px;
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: #fff;
-    font-size: 14px;
+
+    padding: 8px 16px;
+    border: 1px solid crimson;
+    border-radius: 20px;
+
+    background: white;
+    color: crimson;
+
+    font-size: 16px;
+    cursor: pointer;
+
+    text-decoration: none;
+    transition: 0.3s;
 }
 
+.util-btn i {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+
 .util-btn:hover {
-    background: #ffecec;
+    background: crimson;
+    color: white;
 }
 
 
