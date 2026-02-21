@@ -34,17 +34,26 @@
     }
 
     require_once "database.php";
-    $sql = "SELECT * FROM users WHERE email = '$email'";
-    $result = mysqli_query($conn, $sql);
-    if (mysqli_num_rows($result) > 0) {
-      $errors[] = "Email already exists!";
-    }
 
-    $sql = "SELECT * FROM users WHERE phone = '$phone'";
-    $result = mysqli_query($conn, $sql);
-    if (mysqli_num_rows($result) > 0) {
-      $errors[] = "Phone already exists!";
-    }
+// CHECK EMAIL (prepared)
+$sql = "SELECT 1 FROM users WHERE email = ?";
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, "s", $email);
+mysqli_stmt_execute($stmt);
+$res = mysqli_stmt_get_result($stmt);
+if (mysqli_num_rows($res) > 0) {
+  $errors[] = "Email already exists!";
+}
+
+// CHECK PHONE (prepared)
+$sql = "SELECT 1 FROM users WHERE phone = ?";
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, "s", $phone);
+mysqli_stmt_execute($stmt);
+$res = mysqli_stmt_get_result($stmt);
+if (mysqli_num_rows($res) > 0) {
+  $errors[] = "Phone already exists!";
+}
 
     if (count($errors) > 0) {
       foreach ($errors as $error) {
