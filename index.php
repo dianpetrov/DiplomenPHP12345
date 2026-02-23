@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 require_once "database.php";
 
 $cartCount = 0;
@@ -26,9 +27,9 @@ if ($catId > 0) {
     $stmt = mysqli_prepare(
         $conn,
         "SELECT menu_id, menu_name, price, menu_image, category_id
-         FROM menu
-         WHERE category_id = ?
-         ORDER BY menu_name"
+        FROM menu
+        WHERE category_id = ?
+        ORDER BY menu_name"
     );
 
     mysqli_stmt_bind_param($stmt, "i", $catId);
@@ -38,8 +39,8 @@ if ($catId > 0) {
     $res = mysqli_query(
         $conn,
         "SELECT menu_id, menu_name, price, menu_image, category_id
-         FROM menu
-         ORDER BY menu_name"
+        FROM menu
+        ORDER BY menu_name"
     );
 }
 
@@ -92,12 +93,32 @@ while ($row = mysqli_fetch_assoc($res)) {
                 <i class="fa fa-map-marker your-address" id="add-address"> Your Address</i>
             </div>
 
-            <?php
-                $isAdmin = (isset($_SESSION["roles"]) && ($_SESSION["roles"] === "admin" || $_SESSION["roles"] === "staff"));
-            ?>
+        <?php
+$isAdmin = false;
+
+if (!empty($_SESSION["user_id"])) {
+    $uid = (int)$_SESSION["user_id"];
+    $stmtRole = mysqli_prepare($conn, "SELECT roles FROM users WHERE user_id = ?");
+    mysqli_stmt_bind_param($stmtRole, "i", $uid);
+    mysqli_stmt_execute($stmtRole);
+    $resRole = mysqli_stmt_get_result($stmtRole);
+
+    if ($r = mysqli_fetch_assoc($resRole)) {
+        $isAdmin = ($r["roles"] === "admin" || $r["roles"] === "staff");
+    }
+
+    mysqli_stmt_close($stmtRole);
+}
+?>
 
                     <div class="util">
-
+    <?php if ($isAdmin): ?>
+        <a href="admin/index.php" class="util-btn">
+            <i class="fa fa-lock"></i>
+            <span>Admin</span>
+        </a>
+    <?php endif; ?>
+    
     <button class="util-btn">
         <i class="fa fa-search"></i>
         <span>Search</span>
@@ -216,7 +237,7 @@ while ($row = mysqli_fetch_assoc($res)) {
 <!-- /desktop view -->
 
 
-<!-- mobile view (оставям твоя както е) -->
+<!-- mobile view  -->
 <div id="mobile-view" class="mobile-view">
     <div class="mobile-top">
         <div class="logo-box">

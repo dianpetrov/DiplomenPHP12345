@@ -813,6 +813,9 @@ body {
     border-radius: 30px !important;
     box-shadow: 0 4px 15px rgba(220, 20, 60, 0.3);
 }
+html, body {
+  font-family: 'Open Sans', sans-serif !important;
+}
 /* Mobile: показваме mobile view */
 @media (max-width: 768px) {
   #mobile-view {

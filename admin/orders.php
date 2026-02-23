@@ -14,8 +14,8 @@ $role = $ADMIN_ROLE ?? "";
 // Взимаме всички поръчки + клиент
 $sql = "
     SELECT o.order_id, o.user_id, o.total, o.status, o.payment_method, o.payment_status,
-           o.pickup_location, o.order_created_at, o.is_delivered,
-           u.user_name, u.email
+        o.pickup_location, o.order_created_at, o.is_delivered,
+        u.user_name, u.email
     FROM orders o
     JOIN users u ON u.user_id = o.user_id
     ORDER BY o.order_created_at DESC
@@ -145,7 +145,7 @@ if (!$res) {
         <!-- Delete (admin only) -->
         <?php if ($role === "admin"): ?>
         <form action="delete_order.php" method="post"
-              onsubmit="return confirm('Delete this order?');">
+            onsubmit="return confirm('Delete this order?');">
             <input type="hidden" name="order_id" value="<?= $orderId ?>">
             <button type="submit"
                     style="background:#e53935; color:white; border:0; padding:6px 10px; border-radius:6px;">
