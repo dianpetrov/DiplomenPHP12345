@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/admin_guard.php";
+require_once __DIR__ . "/admin_only.php";
 require_once __DIR__ . "/../database.php"; // $conn
 
 $id = (int)($_GET["id"] ?? 0);
@@ -96,10 +96,11 @@ if (isset($_POST["save"])) {
   <title>Edit product</title>
   <style>
     body{font-family:Arial; padding:20px;}
-    input,textarea,select{width:100%; padding:8px;}
-    .grid{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
-    .btn{padding:10px 14px; cursor:pointer;}
-    img{width:90px; height:90px; object-fit:cover; border-radius:10px;}
+input:not([type="checkbox"]), textarea, select { width:100%; padding:8px; }
+input[type="checkbox"] { width:auto; padding:0; }
+.grid{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+.btn{padding:10px 14px; cursor:pointer;}
+img{width:90px; height:90px; object-fit:cover; border-radius:10px;}
   </style>
 </head>
 <body>
@@ -152,16 +153,16 @@ if (isset($_POST["save"])) {
         <input type="file" name="menu_image" accept="image/*">
       </div>
 
-      <div>
-        <label>
-          <input type="checkbox" name="is_available" <?= ((int)$item["is_available"] === 1) ? "checked" : "" ?>>
-          Наличен
-        </label>
-      </div>
-    </div>
+      <div style="display:flex; align-items:center; gap:8px;">
+    <label for="available">Наличен</label>
+    <input type="checkbox" id="available" name="available" value="1">
+</div>
 
     <br>
     <button class="btn" name="save" value="1">Save</button>
+    </div>
+
+    </div>
   </form>
 </body>
 </html>

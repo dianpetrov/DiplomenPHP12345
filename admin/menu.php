@@ -120,7 +120,8 @@ while ($row = mysqli_fetch_assoc($resItems)) {
     body{font-family:Arial; padding:20px;}
     table{border-collapse:collapse; width:100%; margin-top:15px;}
     td,th{border:1px solid #ddd; padding:8px; vertical-align:top;}
-    input,textarea,select{width:100%; padding:8px;}
+    input:not([type="checkbox"]), textarea, select { width:100%; padding:8px; }
+    input[type="checkbox"] { width:auto; padding:0; }
     .grid{display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px;}
     .btn{padding:8px 12px; cursor:pointer;}
     img{width:60px; height:60px; object-fit:cover; border-radius:8px;}
