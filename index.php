@@ -24,25 +24,36 @@ $catId = isset($_GET["cat"]) ? (int)$_GET["cat"] : 0;
 $products = [];
 
 if ($catId > 0) {
-    $stmt = mysqli_prepare(
-        $conn,
-        "SELECT menu_id, menu_name, price, menu_image, category_id
-        FROM menu
-        WHERE category_id = ?
-        ORDER BY menu_name"
+    $stmt = mysqli_prepare
+    (
+    $conn,
+    "SELECT m.menu_id, m.menu_name, m.price, m.menu_image, m.category_id,
+        COALESCE(ROUND(AVG(r.rating), 1), 0) AS avg_rating,
+        COUNT(r.review_id) AS rating_count
+     FROM menu m
+     LEFT JOIN reviews r ON r.menu_id = m.menu_id
+     WHERE m.category_id = ?
+     GROUP BY m.menu_id
+     ORDER BY m.menu_name"
     );
 
     mysqli_stmt_bind_param($stmt, "i", $catId);
     mysqli_stmt_execute($stmt);
     $res = mysqli_stmt_get_result($stmt);
-} else {
-    $res = mysqli_query(
-        $conn,
-        "SELECT menu_id, menu_name, price, menu_image, category_id
-        FROM menu
-        ORDER BY menu_name"
-    );
-}
+    }
+    else 
+    {
+       $res = mysqli_query(
+       $conn,
+        "SELECT m.menu_id, m.menu_name, m.price, m.menu_image, m.category_id,
+        COALESCE(ROUND(AVG(r.rating), 1), 0) AS avg_rating,
+        COUNT(r.review_id) AS rating_count
+        FROM menu m
+        LEFT JOIN reviews r ON r.menu_id = m.menu_id
+        GROUP BY m.menu_id
+        ORDER BY m.menu_name"
+       );
+    }
 
 while ($row = mysqli_fetch_assoc($res)) {
     $products[] = $row;
@@ -163,9 +174,38 @@ if (!empty($_SESSION["user_id"])) {
             <?php foreach ($products as $p): ?>
                 <div id="item-card">
                     <div id="cart-top">
-                        <span id="rating">★ 4.3</span>
-                        <i class="fa fa-heart-o"></i>
-                    </div>
+                       <?php
+                $avg = (float)($p["avg_rating"] ?? 0);
+                $cnt = (int)($p["rating_count"] ?? 0);
+            ?>
+            <div class="rating-box">
+                <span class="avg">
+                    ★ <?= $avg > 0 ? number_format($avg, 1) : "—"; ?>
+                    <?php if ($cnt > 0): ?>
+                        (<?= $cnt; ?>)
+                    <?php endif; ?>
+                </span>
+
+                <?php if (!empty($_SESSION["user_id"])): ?>
+                    <form class="rate-form" action="rate.php" method="post">
+                        <input type="hidden" name="menu_id" value="<?= (int)$p["menu_id"]; ?>">
+                        <input type="hidden" name="cat" value="<?= (int)$catId; ?>">
+
+                        <div class="stars" data-menu="<?= (int)$p["menu_id"]; ?>">
+                            <button type="submit" name="rating" value="1">★</button>
+                            <button type="submit" name="rating" value="2">★</button>
+                            <button type="submit" name="rating" value="3">★</button>
+                            <button type="submit" name="rating" value="4">★</button>
+                            <button type="submit" name="rating" value="5">★</button>
+                        </div>
+                    </form>
+                <?php else: ?>
+                    <a class="login-to-rate" href="login.php">Login to rate</a>
+                <?php endif; ?>
+            </div>
+
+            
+        </div>
 
                     <img src="<?php echo htmlspecialchars($p["menu_image"]); ?>" alt="">
                     <p id="item-name"><?php echo htmlspecialchars($p["menu_name"]); ?></p>
@@ -247,7 +287,6 @@ if (!empty($_SESSION["user_id"])) {
         <div class="top-menu">
             <i class="fa fa-search"></i>
             <i class="fa fa-tag"></i>
-            <i class="fa fa-heart-o"></i>
             <i class="fa fa-cart-plus" id="m-cart-plus"> 0</i>
         </div>
     </div>

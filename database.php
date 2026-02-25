@@ -1,9 +1,9 @@
 <?php
 $hostName = "127.0.0.1";
 $dbUser = "root";
-$dbPassword = "1234";
+$dbPassword = "";
 $dbName = "fastbreak";
-$port = 3306;
+$port = 3307;
 
 $conn = mysqli_connect($hostName, $dbUser, $dbPassword, $dbName, $port);
 

@@ -169,18 +169,21 @@ body {
 }
 
 #item-card {
-    width: 220px;
-    min-height: 350px;
-    padding: 15px;
+    width: 250px;          /* малко по-голяма */
+    height: 430px;         /* фиксирана височина = всички еднакви */
+    padding: 18px;
     margin: 15px;
-    display: inline-flex;
+
+    display: inline-flex;  /* остава хоризонтално */
     flex-direction: column;
     justify-content: space-between;
+
     border-radius: 15px;
     background: rgb(253, 221, 226);
     cursor: pointer;
     transition: 0.3s all ease-in-out;
     vertical-align: top;
+    box-sizing: border-box;
 }
 
 #item-card:hover {
@@ -233,8 +236,9 @@ body {
 /* Елементи вътре в картата */
 #cart-top {
     display: flex;
-    margin: 5px 0;
     justify-content: space-between;
+    align-items: flex-start;
+    margin: 5px 0;
 }
 
 #rating {
@@ -314,6 +318,7 @@ body {
 
 .list-card:hover {
     background: rgb(255, 216, 222);
+    border-radius: 12px;
 }
 
 .list-card img {
@@ -328,11 +333,22 @@ body {
 }
 
 .list-name {
+    display:block;
+    width: 100%;
+    padding: 10px 15px;
     font-size: 20px;
     margin: 0 10px;
     text-decoration: none;
     text-transform: capitalize;
     color: rgb(94, 43, 43);
+}
+.list-name:visited {
+    color: #333;            /* да не става лилаво */
+}
+.list-name:hover {
+    background-color: #f5d6dc;
+    border-radius: 12px;
+    color: #000;            /* по желание */
 }
 
 /* =========================================
@@ -574,6 +590,7 @@ body {
 
     #food-items {
         padding: 5px 10px;
+        text-align: left;
     }
 
     #category-name {
@@ -813,15 +830,40 @@ body {
     border-radius: 30px !important;
     box-shadow: 0 4px 15px rgba(220, 20, 60, 0.3);
 }
-html, body {
-  font-family: 'Open Sans', sans-serif !important;
+
+
+.rating-box { display: flex;flex-direction: column; gap: 6px; transform: translateX(2px); }
+.rating-box .avg { font-size: 14px; }
+
+.stars{
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
 }
+
+.stars button{
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+  border-radius: 10px;
+  background: #ff7f50; /* корал */
+  color: #fff;
+
+  font-size: 20px;
+  line-height: 1;
+
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.stars button:hover{
+  transform: scale(1.08);
+  filter: brightness(0.95);
+}
+.login-to-rate { font-size: 12px; text-decoration: none; }
+/* hover ефект по желание */
 /* Mobile: показваме mobile view */
-@media (max-width: 768px) {
-  #mobile-view {
-    display: block;
-  }
-  #container {
-    display: none;
-  }
-}
